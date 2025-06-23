@@ -6,9 +6,27 @@ const cors = require('cors');
 const apiRoutes = require('./routes/api');
 
 const app = express();
-app.use(helmet());
+
+// Helmet setup
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: false,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'"],
+      },
+    },
+  }),
+);
+
 app.use(cors());
 app.use('/api', apiRoutes);
+
+app.get('/', (req, res) => {
+  res.send('Stock Price Checker');
+});
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
