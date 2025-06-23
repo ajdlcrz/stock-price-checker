@@ -8,18 +8,10 @@ const apiRoutes = require('./routes/api');
 const app = express();
 
 // Helmet setup
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      useDefaults: false,
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
-        styleSrc: ["'self'"],
-      },
-    },
-  }),
-);
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', "script-src 'self'; style-src 'self'");
+  next();
+});
 
 app.use(cors());
 app.use('/api', apiRoutes);
