@@ -7,9 +7,9 @@ const apiRoutes = require('./routes/api');
 
 const app = express();
 
-// Helmet setup
+// Content Security Policy - must be before other middleware
 app.use((req, res, next) => {
-  res.setHeader('Content-Security-Policy', "script-src 'self'; style-src 'self'");
+  res.setHeader('Content-Security-Policy', "script-src 'self'; style-src 'self';");
   next();
 });
 
@@ -30,3 +30,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+module.exports = app;
